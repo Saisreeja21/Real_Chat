@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>V Chat</title>
+</head>
+<body>
+    <div class="join-container">
+        <header class="join-header">
+            <h1><i class="fas fa-smile"></i> V Chat</h1>
+        </header>
+        <main class="join-main">
+            <form action="chat.html" onsubmit="return handleFormSubmit(event)">
+                <div class="form-control">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter username..."
+                        required
+                    />
+                </div>
+                <div class="form-control">
+                    <label for="room">Room</label>
+                    <select name="room" id="room">
+                        <option value="Home">Home</option>
+                        <option value="Office">Office</option>
+                        <option value="Tinku">Tinku</option>
+                        <option value="Bindhu">Bindhu</option>
+                        <option value="custom">Create a new room</option>
+                    </select>
+                    <input
+                        type="text"
+                        name="customRoom"
+                        id="customRoom"
+                        placeholder="Enter custom room name..."
+                        style="display: none; margin-top: 10px;"
+                    />
+                </div>
+                <button type="submit" class="btn">Join Chat</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // document.getElementById('room').addEventListener('change', function() {
+        //     const customRoomInput = document.getElementById('customRoom');
+        //     if (this.value === 'custom') {
+        //         customRoomInput.style.display = 'block';
+        //         customRoomInput.required = true;
+        //     } else {
+        //         customRoomInput.style.display = 'none';
+        //         customRoomInput.required = false;
+        //     }
+        // });
+
+        // function handleFormSubmit(event) {
+        //     const roomSelect = document.getElementById('room');
+        //     const customRoomInput = document.getElementById('customRoom');
+        //     if (roomSelect.value === 'custom' && customRoomInput.value.trim() === '') {
+        //         event.preventDefault();
+        //         alert('Please enter a custom room name.');
+        //         return false;
+        //     }
+        //     if (roomSelect.value === 'custom') {
+        //         roomSelect.value = customRoomInput.value;
+        //     }
+        //     return true;
+        // }
+
+        document.getElementById('room').addEventListener('change', function() {
+        const customRoomInput = document.getElementById('customRoom');
+        if (this.value === 'custom') {
+            customRoomInput.style.display = 'block';
+            customRoomInput.required = true;
+        } else {
+            customRoomInput.style.display = 'none';
+            customRoomInput.required = false;
+        }
+    });
+
+    function handleFormSubmit(event) {
+        const roomSelect = document.getElementById('room');
+        const customRoomInput = document.getElementById('customRoom');
+        if (roomSelect.value === 'custom' && customRoomInput.value.trim() === '') {
+            event.preventDefault();
+            alert('Please enter a custom room name.');
+            return false;
+        }
+        if (roomSelect.value === 'custom') {
+            const customRoomName = customRoomInput.value;
+            // Save the custom room name in local storage
+            localStorage.setItem('customRoomName', customRoomName);
+            roomSelect.value = customRoomName;
+        }
+        return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const room = urlParams.get('room');
+    console.log('Room:', room); // Add this line for debugging
+    const roomNameElement = document.getElementById('room-name');
+    if (room && roomNameElement) {
+      roomNameElement.textContent = room;
+    }
+  });
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const customRoomName = localStorage.getItem('customRoomName');
+    //     if (customRoomName) {
+    //         document.getElementById('customRoom').value = customRoomName;
+    //     }
+    // });
+
+    </script>
+</body>
+</html>
